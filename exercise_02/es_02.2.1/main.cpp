@@ -18,12 +18,8 @@ _/    _/  _/_/_/  _/_/_/_/ email: Davide.Galli@unimi.it
 #include <array>
 #include "random.h"
 
-struct point{
-  double x;
-  double y;
-  double z;
-};
-
+struct point;
+struct angle;
 double dev_st_mean(unsigned int ,double ,double );
 point discrete_walk(double ,double ,point );
 point continus_walk(angle , double , point );

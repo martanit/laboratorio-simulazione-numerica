@@ -11,10 +11,17 @@ _/    _/  _/_/_/  _/_/_/_/ email: Davide.Galli@unimi.it
 #ifndef __Random__
 #define __Random__
 
+struct point{
+  double x;
+  double y;
+  double z;
+};
+
 struct angle{
   double theta;
   double phi;
 };
+
 
 class Random {
 
