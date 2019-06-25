@@ -1,0 +1,21 @@
+0.8
+108
+1.1
+2.2
+0.12
+10
+1000
+1000
+1
+0
+
+  ReadInput >> temp;
+  ReadInput >> npart;
+  ReadInput >> rho;
+  ReadInput >> rcut;
+  ReadInput >> delta;
+  ReadInput >> nblk;
+  ReadInput >> nstep;
+  ReadInput >> ntherm;
+  ReadInput >> instant_values;
+  ReadInput >> evaluate_therm;
