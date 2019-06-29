@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <numeric>
 #include <iomanip>
-#include "random.h"
+#include "random/random.h"
 
 //Random stuff
 int seed[4];
