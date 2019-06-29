@@ -74,6 +74,14 @@ angle Random :: Sphere(void){
   return w;
 }
 
+angle Random :: GaussSphere(){
+ 
+  angle w;  
+  w.theta =2*M_PI*Gauss(0,1);
+  w.phi = std::acos( 1. - 2. * Gauss(0,1));
+  return w;
+}
+
 double Random :: Exp(double lambda){
   return - 1./lambda * log( 1. - Rannyu());
 }

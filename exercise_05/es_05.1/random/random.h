@@ -43,6 +43,7 @@ public:
   double Gauss(double mean, double sigma);
   double Dice(void);
   angle Sphere(void);
+  angle GaussSphere();
   double Exp(double lambda);
   double CauchyLorentz(double mu, double gamma);
 };
