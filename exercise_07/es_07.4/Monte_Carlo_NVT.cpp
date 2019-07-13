@@ -295,9 +295,10 @@ void Accumulate(void) //Update block averages
 
 void Averages(int iblk) //Print results for current block
 {
+   double stima_u, stima_p;
    double stima_g[igofr+nbins];
-   double err_g[igofr+nbins];
-   ofstream Gofr, Gave;
+   double err_g[igofr+nbins], err_u, err_p;
+   ofstream Gofr, Gave, ave_epot, ave_press;
    const int wd=12;
     
     cout << "Block number " << iblk << endl;
@@ -305,6 +306,20 @@ void Averages(int iblk) //Print results for current block
     
     Gofr.open("output.gofr.0",ios::app);
     Gave.open("output.gave.0",ios::app);
+    ave_epot.open("output.uave.0", ios::app);
+    ave_press.open("output.press.0", ios::app);
+    
+    stima_u = blk_av[0]/blk_norm;
+    glob_av[0] += stima_u;
+    glob_av2[0] += stima_u*stima_u;
+    err_u = Error(glob_av[0], glob_av2[0], iblk);
+    ave_epot << setw(wd) << iblk <<  setw(wd) << glob_av[0]/(double)iblk << setw(wd) << err_u << endl;
+    
+    stima_p = blk_av[1]/blk_norm;
+    glob_av[1] += stima_p;
+    glob_av2[1] += stima_p*stima_p;
+    err_p = Error(glob_av[1], glob_av2[1], iblk);
+    ave_press << setw(wd) << iblk <<  setw(wd) << glob_av[1]/(double)iblk << setw(wd) << err_p << endl;
     
     for (int k=igofr; k<igofr+nbins; ++k){
       stima_g[k] = blk_av[k]/blk_norm;
@@ -329,6 +344,8 @@ void Averages(int iblk) //Print results for current block
 
     Gofr.close();
     Gave.close();
+    ave_epot.close();
+    ave_press.close();
 }
 
 
