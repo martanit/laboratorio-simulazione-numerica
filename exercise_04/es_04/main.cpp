@@ -362,7 +362,7 @@ void measure(int istep, int iblock){
   
      }
      //Pressure
-     pij = 48*pow(1/dr,12) - 0.5*pow(1/dr,6); 
+     pij = 48*(pow(1/dr,12) - 0.5*pow(1/dr,6)); 
      p += pij;
     }          
   }

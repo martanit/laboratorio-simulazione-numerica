@@ -373,7 +373,7 @@ for (int k=0; k<nbins; ++k){
   
      }
      //Pressure
-     pij = 48*epsilon*pow(sigma/dr,12) - 0.5*pow(sigma/dr,6); 
+     pij = 48*epsilon*(pow(sigma/dr,12) - 0.5*pow(sigma/dr,6)); 
      p += pij;
     }          
   }
