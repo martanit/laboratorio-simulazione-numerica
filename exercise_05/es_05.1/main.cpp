@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
   std::ofstream out_1s("../data/output_es05.1.1.dat");
   std::ofstream out_point_1s("../data/output_es05.1.1.point.dat");
   std::ofstream out_2p("../data/output_es05.1.2.dat");
-  std::ofstream out_point_2p("../data/output_es05.1.2.point.dat");
+  std::ofstream out_point_2p("../data/output_es05.1.2.dat");
 
   // random stuff
   Random rnd;
@@ -70,8 +70,9 @@ int main(int argc, char *argv[]) {
 
     for (unsigned int i = 0; i < M / N; i++) {
       evaluate++;
-      p_try_1s = continus_walk(rnd.Sphere(), a * 1.13, p_1s);
-      p_try_2p = continus_walk(rnd.Sphere(), a * 2.74, p_2p);
+      
+      p_try_1s = continus_walk(rnd.Sphere(), a*1.13, p_1s);
+      p_try_2p = continus_walk(rnd.Sphere(), a*2.74, p_2p);
 
       if (rnd.Rannyu() <=
           metropolis(pdensity_1s_H(p_try_1s), pdensity_1s_H(p_1s))) {

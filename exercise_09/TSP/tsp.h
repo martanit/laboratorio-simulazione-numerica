@@ -25,8 +25,8 @@ public:
   double distance(City r) {
     return std::sqrt(std::pow(r.m_x - m_x, 2) + std::pow(r.m_y - m_y, 2));
   }
-  double get_x(){return m_x;}
-  double get_y(){return m_y;}
+  double get_x() { return m_x; }
+  double get_y() { return m_y; }
 
 private:
   double m_x;
@@ -37,13 +37,13 @@ class Fitness {
 public:
   Fitness(std::vector<City> city) : m_city(city){};
   ~Fitness(){};
-  
+
   double path_fitness(std::vector<unsigned int> chromosome) {
     double distance = 0;
     for (auto &c : chromosome) {
-      if( *(&c) == chromosome.back())
+      if (*(&c) == chromosome.back())
         distance += m_city[c].distance(m_city[chromosome[0]]);
-      else  
+      else
         distance += m_city[*(&c + 1)].distance(m_city[c]);
     }
     return 1. / distance;
@@ -55,47 +55,46 @@ private:
 
 class Genetic {
 public:
+  Genetic(std::vector<unsigned int> c, Random &rnd) : m_c(c), m_rnd(rnd){};
 
-  Genetic(std::vector<unsigned int > c, Random &rnd)
-      : m_c(c), m_rnd(rnd){ };
-  
   ~Genetic(){};
-  
-  std::tuple<std::vector<unsigned int>, std::vector<unsigned int>> crossover(std::vector<unsigned int> c1) {
-      unsigned int cut = static_cast<unsigned int>(m_rnd.Rannyu(1, 30));
-      std::vector<unsigned int> conserved_1, conserved_2, 
-                                to_find_in1(m_c.size()-cut), to_find_in2(m_c.size()-cut), 
-                                cross_1, cross_2;
-      
-      for(unsigned int i=0; i<cut; ++i){
-          conserved_1.push_back(m_c[i]); 
-          conserved_2.push_back(c1[i]);
-      }
-      for(unsigned int i=cut; i<c1.size(); ++i){
-          to_find_in2[i-cut] = m_c[i];
-          to_find_in1[i-cut] = c1[i];  
-      } 
-        for(unsigned int j=0; j<c1.size(); ++j)
-          for(unsigned int k=0; k<m_c.size()-cut; ++k){
-            if(c1[j] == to_find_in2[k])
-                cross_1.push_back(to_find_in2[k]); 
-            if(m_c[j] == to_find_in1[k])
-                cross_2.push_back(to_find_in1[k]); 
-          }
 
-      conserved_1.insert(conserved_1.end(), cross_1.begin(),cross_1.end()); 
-      conserved_2.insert(conserved_2.end(), cross_2.begin(),cross_2.end()); 
-      
-      return std::make_tuple(conserved_1, conserved_2);  
-   }
+  std::tuple<std::vector<unsigned int>, std::vector<unsigned int>>
+  crossover(std::vector<unsigned int> c1) {
+    unsigned int cut = static_cast<unsigned int>(m_rnd.Rannyu(1, 30));
+    std::vector<unsigned int> conserved_1, conserved_2,
+        to_find_in1(m_c.size() - cut), to_find_in2(m_c.size() - cut), cross_1,
+        cross_2;
+
+    for (unsigned int i = 0; i < cut; ++i) {
+      conserved_1.push_back(m_c[i]);
+      conserved_2.push_back(c1[i]);
+    }
+    for (unsigned int i = cut; i < c1.size(); ++i) {
+      to_find_in2[i - cut] = m_c[i];
+      to_find_in1[i - cut] = c1[i];
+    }
+    for (unsigned int j = 0; j < c1.size(); ++j)
+      for (unsigned int k = 0; k < m_c.size() - cut; ++k) {
+        if (c1[j] == to_find_in2[k])
+          cross_1.push_back(to_find_in2[k]);
+        if (m_c[j] == to_find_in1[k])
+          cross_2.push_back(to_find_in1[k]);
+      }
+
+    conserved_1.insert(conserved_1.end(), cross_1.begin(), cross_1.end());
+    conserved_2.insert(conserved_2.end(), cross_2.begin(), cross_2.end());
+
+    return std::make_tuple(conserved_1, conserved_2);
+  }
 
   void pair_perm(double p) {
     if (m_rnd.Rannyu() < p) {
       unsigned int i, j;
       i = static_cast<unsigned int>(m_rnd.Rannyu(0, 30));
-      do{
-        j = static_cast<unsigned int>(m_rnd.Rannyu(0,30));
-      }while (i == j);
+      do {
+        j = static_cast<unsigned int>(m_rnd.Rannyu(0, 30));
+      } while (i == j);
       std::swap(m_c[i], m_c[j]);
     }
   }
@@ -126,7 +125,6 @@ public:
     std::reverse(m_c.begin() + i, m_c.begin() + j);
   }
 
-
   std::vector<unsigned int> &get_c() { return m_c; };
 
 private:
@@ -137,9 +135,8 @@ private:
 
 #endif
 
-bool check(std::vector<unsigned int> c)
-{
+bool check(std::vector<unsigned int> c) {
   std::vector<unsigned int> test(30);
-	std::iota(test.begin(), test.end(), 0);
-	return std::is_permutation(c.begin(), c.end(), test.begin());
+  std::iota(test.begin(), test.end(), 0);
+  return std::is_permutation(c.begin(), c.end(), test.begin());
 }

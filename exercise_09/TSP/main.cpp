@@ -130,14 +130,16 @@ int main(int argc, char *argv[]) {
   out_path.open(city_type + "_path.dat", std::fstream::app | std::fstream::out);
 
   std::ofstream out_distance;
-  out_distance.open(city_type + "_distance.dat", std::fstream::app | std::fstream::out);
+  out_distance.open(city_type + "_distance.dat",
+                    std::fstream::app | std::fstream::out);
 
   std::ofstream out_avg_distance;
-  out_avg_distance.open(city_type + "_avg_distance.dat", std::fstream::app | std::fstream::out);
+  out_avg_distance.open(city_type + "_avg_distance.dat",
+                        std::fstream::app | std::fstream::out);
 
   // Start GA
   // Run mutations over n_max_generation
-  do {
+  for (unsigned int i = 0; i < n_max_generation; ++i) {
     next_generation.clear();
 
     // Populate new generation with childerns
@@ -235,33 +237,33 @@ int main(int argc, char *argv[]) {
 
     shortest_path = generation.back();
     double avg_distance = 0;
-    for(auto x = generation.begin()+n_chromosome/2.; x!=generation.end(); ++x)
-        avg_distance += 1./fit.path_fitness(*x);
+    for (auto x = generation.begin() + n_chromosome / 2.; x != generation.end();
+         ++x)
+      avg_distance += 1. / fit.path_fitness(*x);
 
     if (out_distance.is_open())
       out_distance << generations << " " << 1. / fit.path_fitness(shortest_path)
-               << std::endl;
+                   << std::endl;
     else
       std::cerr << "PROBLEM: Unable to open output file" << std::endl;
-    
+
     if (out_avg_distance.is_open())
-      out_avg_distance << generations << " " << avg_distance
-               << std::endl;
+      out_avg_distance << generations << " " << avg_distance << std::endl;
     else
       std::cerr << "PROBLEM: Unable to open output file" << std::endl;
-    
-    
+
     generations++;
-  } while (generations != n_max_generation);
-    
-  if (out_path.is_open()){
-      for(auto &x : shortest_path)
-          out_path << list_city[x].get_x() <<" "  << list_city[x].get_y()<< std::endl;
-      //for graph
-          out_path << list_city[shortest_path[0]].get_x() <<" "  << list_city[shortest_path[0]].get_y()<< std::endl;
   }
-    else
-      std::cerr << "PROBLEM: Unable to open output file" << std::endl;
+
+  if (out_path.is_open()) {
+    for (auto &x : shortest_path)
+      out_path << list_city[x].get_x() << " " << list_city[x].get_y()
+               << std::endl;
+    // for graph
+    out_path << list_city[shortest_path[0]].get_x() << " "
+             << list_city[shortest_path[0]].get_y() << std::endl;
+  } else
+    std::cerr << "PROBLEM: Unable to open output file" << std::endl;
   out_path.close();
   out_distance.close();
   out_avg_distance.close();

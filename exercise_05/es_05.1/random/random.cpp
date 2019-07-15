@@ -77,8 +77,18 @@ angle Random :: Sphere(void){
 angle Random :: GaussSphere(){
  
   angle w;  
-  w.theta =2*M_PI*Gauss(0,1);
-  w.phi = std::acos( 1. - 2. * Gauss(0,1));
+  double tmp_rnd;
+  do{
+    tmp_rnd = Gauss(0.5,1);
+  } while( tmp_rnd<0 or tmp_rnd>1);
+
+    w.theta =2*M_PI*tmp_rnd;
+
+  do{
+    tmp_rnd = Gauss(0.5,1);
+  } while( tmp_rnd<0 or tmp_rnd>1);
+ 
+  w.phi = std::acos( 1. - 2. * tmp_rnd);
   return w;
 }
 

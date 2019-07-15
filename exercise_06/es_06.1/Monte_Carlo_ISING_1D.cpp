@@ -141,8 +141,8 @@ void measure() {
   // Cycle over spins
   for (unsigned int i = 0; i < nspin; ++i) {
     H += -J * s[i] * s[Pbc(i + 1)] - 0.5 * h * (s[i] + s[Pbc(i + 1)]);
-    H2 += std::pow(-J * s[i] * s[Pbc(i + 1)] - 
-                   0.5 * h * (s[i] + s[Pbc(i + 1)]), 2);
+    H2 += std::pow(-J * s[i] * s[Pbc(i + 1)] - 0.5 * h * (s[i] + s[Pbc(i + 1)]),
+                   2);
     m += s[i];
   }
   // Vector of single step averages

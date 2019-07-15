@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
   double mu = atof(argv[1]);
   double sigma = atof(argv[2]);
   bool variational = atoi(argv[3]);
-  
+
   Random rnd;
   rnd = random_stuff();
   // Monte Carlo steps
