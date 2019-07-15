@@ -1,3 +1,3 @@
 # laboratorio-simulazione-numerica
 
-Exercize for LSN
+Esercizi svolti per il Laboratiorio di simulazione numerica.
