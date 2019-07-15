@@ -337,7 +337,7 @@ void measure(int istep, int iblock){
   ave_temp.open("output/ave_temp.out",std::ios::app);
   ave_etot.open("output/ave_etot.out",std::ios::app);
   ave_press.open("output/ave_press.out",std::ios::app);
-  ave_g.open("output/ave_g.out", std::ios::app);
+  ave_g.open("../data/es07.4/ave_gofr_MD.out", std::ios::app);
   
   v = 0.0; //reset observables
   t = 0.0;
@@ -390,7 +390,7 @@ for (int k=0; k<nbins; ++k){
     est_kin = t/(double)npart;                  //Kinetic energy
     est_temp = (2.0 / 3.0) * t/(double)npart;   //temperature
     est_etot = (t+v)/(double)npart;             //Total energy
-    est_press = rho*t+1./3.*p/(double)npart;    //Estimate pressure
+    est_press = (rho*t+1./3.*p)/(double)npart;    //Estimate pressure
    
 
     epot << est_pot  << std::endl;
@@ -439,14 +439,14 @@ for (int k=0; k<nbins; ++k){
       if(iblock==(nblock-1))
         for(int k=0; k<nbins; ++k)
           ave_g << k << " " << glob_av[k]/double(nblock+1) << " " << err_g[k] << std::endl;
-
+/*
       ave_epot << sum_pot/double(iblock+1) << " " << dev_st_mean(iblock+1 , sum_pot, sum2_pot) << std::endl;
       ave_ekin << sum_kin/double(iblock+1) << " "  << dev_st_mean(iblock+1, sum_kin, sum2_kin) << std::endl;
       ave_temp << sum_temp/double(iblock+1) << " " << dev_st_mean(iblock+1, sum_temp, sum2_temp) << std::endl;
       ave_etot << sum_etot/double(iblock+1) << " " << dev_st_mean(iblock+1, sum_etot, sum2_etot) << std::endl;
       ave_press << sum_press/double(iblock+1) << " " << dev_st_mean(iblock+1, sum_press, sum2_press) << std::endl;
       
-      
+  */    
       ave_epot.close();
       ave_ekin.close();
       ave_temp.close();

@@ -304,22 +304,21 @@ void Averages(int iblk) //Print results for current block
     cout << "Block number " << iblk << endl;
     cout << "Acceptance rate " << accepted/attempted << endl << endl;
     
-    Gofr.open("output.gofr.0",ios::app);
-    Gave.open("output.gave.0",ios::app);
-    ave_epot.open("output.uave.0", ios::app);
-    ave_press.open("output.press.0", ios::app);
+    Gave.open("../data/es07.4/ave_gofr_MC.out",ios::app);
+    ave_epot.open("../data/es07.4/ave_epot.out", ios::app);
+    ave_press.open("../data/es07.4/ave_press.out", ios::app);
     
-    stima_u = blk_av[0]/blk_norm;
-    glob_av[0] += stima_u;
-    glob_av2[0] += stima_u*stima_u;
-    err_u = Error(glob_av[0], glob_av2[0], iblk);
-    ave_epot << setw(wd) << iblk <<  setw(wd) << glob_av[0]/(double)iblk << setw(wd) << err_u << endl;
+    stima_u = blk_av[iv]/blk_norm/(double)npart+vtail;
+    glob_av[iv] += stima_u;
+    glob_av2[iv] += stima_u*stima_u;
+    err_u = Error(glob_av[iv], glob_av2[iv], iblk);
+    ave_epot << setw(wd) << iblk <<  setw(wd) << glob_av[iv]/(double)iblk << setw(wd) << err_u << endl;
     
-    stima_p = blk_av[1]/blk_norm;
-    glob_av[1] += stima_p;
-    glob_av2[1] += stima_p*stima_p;
-    err_p = Error(glob_av[1], glob_av2[1], iblk);
-    ave_press << setw(wd) << iblk <<  setw(wd) << glob_av[1]/(double)iblk << setw(wd) << err_p << endl;
+    stima_p = rho * temp + (blk_av[iw]/blk_norm + ptail * (double)npart) / vol; //Pressure
+    glob_av[iw] += stima_p;
+    glob_av2[iw] += stima_p*stima_p;
+    err_p = Error(glob_av[iw], glob_av2[iw], iblk);
+    ave_press << setw(wd) << iblk <<  setw(wd) << glob_av[iw]/(double)iblk << setw(wd) << err_p << endl;
     
     for (int k=igofr; k<igofr+nbins; ++k){
       stima_g[k] = blk_av[k]/blk_norm;
@@ -328,15 +327,10 @@ void Averages(int iblk) //Print results for current block
       err_g[k] = Error(glob_av[k], glob_av2[k], iblk);
     }
 
-    //g(r)
-    for(int k=igofr; k<igofr+nbins; ++k)    
-      Gofr << setw(wd) << iblk << setw(wd)<< k << setw(wd) << 
-                          stima_g[k] << setw(wd) << endl;
-
     // g(r) last avg
     if(iblk==nblk)
       for(int k=igofr; k<igofr+nbins; ++k)    
-        Gave << setw(wd) << k <<  setw(wd) << stima_g[k] 
+        Gave << setw(wd) << k <<  setw(wd)
              << setw(wd) << glob_av[k]/(double)iblk << setw(wd) 
              << err_g[k] << endl;
 

@@ -374,12 +374,12 @@ void measure(int istep, int iblock){
     est_kin = t/(double)npart;                  //Kinetic energy
     est_temp = (2.0 / 3.0) * t/(double)npart;   //temperature
     est_etot = (t+v)/(double)npart;             //Total energy
-    est_press = rho*t+1./3.*p/(double)npart;
+    est_press = (rho*t+1./3.*p)/(double)npart;
 
-    epot << est_pot  << std::endl;
-    ekin << est_kin  << std::endl;
-    temp << est_temp << std::endl;
-    etot << est_etot << std::endl;
+    //epot << est_pot  << std::endl;
+    //ekin << est_kin  << std::endl;
+    //temp << est_temp << std::endl;
+    //etot << est_etot << std::endl;
     press << est_press << std::endl;
 
     
@@ -409,10 +409,10 @@ void measure(int istep, int iblock){
       sum2_etot += std::pow(block_etot,2);
       sum2_press += std::pow(block_press,2);
     
-      ave_epot << istep+nstep/(nblock*10.)*iblock << " " << sum_pot/double(iblock+1) << " " << dev_st_mean(iblock+1 , sum_pot, sum2_pot) << std::endl;
-      ave_ekin << istep+nstep/(nblock*10.)*iblock << " "<< sum_kin/double(iblock+1) << " "  << dev_st_mean(iblock+1, sum_kin, sum2_kin) << std::endl;
-      ave_temp << istep+nstep/(nblock*10.)*iblock <<" " << sum_temp/double(iblock+1) << " " << dev_st_mean(iblock+1, sum_temp, sum2_temp) << std::endl;
-      ave_etot << istep+nstep/(nblock*10.)*iblock <<" " << sum_etot/double(iblock+1) << " " << dev_st_mean(iblock+1, sum_etot, sum2_etot) << std::endl;
+      //ave_epot << istep+nstep/(nblock*10.)*iblock << " " << sum_pot/double(iblock+1) << " " << dev_st_mean(iblock+1 , sum_pot, sum2_pot) << std::endl;
+      //ave_ekin << istep+nstep/(nblock*10.)*iblock << " "<< sum_kin/double(iblock+1) << " "  << dev_st_mean(iblock+1, sum_kin, sum2_kin) << std::endl;
+      //ave_temp << istep+nstep/(nblock*10.)*iblock <<" " << sum_temp/double(iblock+1) << " " << dev_st_mean(iblock+1, sum_temp, sum2_temp) << std::endl;
+      //ave_etot << istep+nstep/(nblock*10.)*iblock <<" " << sum_etot/double(iblock+1) << " " << dev_st_mean(iblock+1, sum_etot, sum2_etot) << std::endl;
       ave_press << istep+nstep/(nblock*10.)*iblock <<" " << sum_press/double(iblock+1) << " " << dev_st_mean(iblock+1, sum_press, sum2_press) << std::endl;
       
       ave_epot.close();
