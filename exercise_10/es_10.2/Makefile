@@ -1,5 +1,5 @@
 CC = mpicxx
-CFLAGS = -O3 --std=c++17 
+CFLAGS = -O3 --std=c++11 
 
 main.exe : main.o random/random.o 
 	$(CC) random/random.o main.o -o main.exe
