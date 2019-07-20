@@ -161,9 +161,12 @@ int main(int argc, char *argv[]) {
         double irecv[size];
         MPI_Gather(&energy, 1, MPI_DOUBLE, &irecv, 1, MPI_DOUBLE, 0,
                    MPI::COMM_WORLD);
-        if (out_distance.is_open())
-          out_distance << count << " " << irecv[0] << " " << irecv[1] << " "
-                       << irecv[2] << " " << irecv[3] << std::endl;
+        if (out_distance.is_open()){
+          out_distance << count << " " ;
+          for(unsigned int i=0; i<size; ++i)
+            out_distance << irecv[i] << " " ; 
+          out_distance << std::endl;
+        }
         else
           std::cerr << "PROBLEM: Unable to open output file" << std::endl;
       } else {
