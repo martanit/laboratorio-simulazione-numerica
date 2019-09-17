@@ -129,9 +129,6 @@ void Input(void) {
     z[i] = Pbc(z[i] * box);
   }
   ReadConf.close();
-
-  // Evaluate potential energy and virial of the initial configuration
-  Measure();
 }
 
 void Move(void) {
@@ -238,13 +235,6 @@ void Measure() {
       }
     }
   }
-  // g(r) normalization
-  for (int k = igofr; k <= igofr + nbins; ++k) {
-    r = bin_size * (k - igofr);
-    walker[k] /=
-        (rho * npart * (4. * M_PI / 3.) * (pow(r + bin_size, 3) - pow(r, 3)));
-  }
-
   walker[iv] = 4.0 * v;
   walker[iw] = 48.0 * w / 3.0;
 }
@@ -278,6 +268,7 @@ void Accumulate(void) // Update block averages
 
 void Averages(int iblk) // Print results for current block
 {
+  double r;
   double stima_u, stima_p;
   double stima_g[igofr + nbins];
   double err_g[igofr + nbins], err_u, err_p;
@@ -306,8 +297,10 @@ void Averages(int iblk) // Print results for current block
   ave_press << setw(wd) << iblk << setw(wd) << glob_av[iw] / (double)iblk
             << setw(wd) << err_p << endl;
 
+  // g(r) normalization
   for (int k = igofr; k < igofr + nbins; ++k) {
-    stima_g[k] = blk_av[k] / blk_norm;
+    r = bin_size * (k - igofr);
+    stima_g[k] = blk_av[k]/(blk_norm*(rho * npart * (4. * M_PI / 3.) * (pow(r + bin_size, 3) - pow(r, 3))));
     glob_av[k] += stima_g[k];
     glob_av2[k] += stima_g[k] * stima_g[k];
     err_g[k] = Error(glob_av[k], glob_av2[k], iblk);
@@ -315,10 +308,11 @@ void Averages(int iblk) // Print results for current block
 
   // g(r) last avg
   if (iblk == nblk)
-    for (int k = igofr; k < igofr + nbins; ++k)
-      Gave << setw(wd) << k << setw(wd) << setw(wd) << glob_av[k] / (double)iblk
+    for (int k = igofr; k < igofr + nbins; ++k){
+      r = bin_size * (k - igofr);
+      Gave << setw(wd) << r << setw(wd) << glob_av[k] / (double)iblk
            << setw(wd) << err_g[k] << endl;
-
+    }
   cout << "----------------------------" << endl << endl;
 
   Gofr.close();

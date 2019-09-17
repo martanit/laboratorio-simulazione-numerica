@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall -O3 --std=c++11
+CFLAGS = -Wall --std=c++11
 
 Monte_Carlo_NVT.exe : Monte_Carlo_NVT.o random/random.o
 	$(CC) random/random.o Monte_Carlo_NVT.o -o Monte_Carlo_NVT.exe

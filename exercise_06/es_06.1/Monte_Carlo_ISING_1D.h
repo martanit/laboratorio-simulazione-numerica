@@ -1,57 +1,67 @@
-#ifndef __monte_carlo_ising_H
-#define __monte_carlo_ising_H
-#include <vector>
-#include <iostream>
-#include <fstream>
-#include <ostream>
-#include <cmath>
-#include <algorithm>
-#include <numeric>
-#include <iomanip>
-#include "random/random.h"
+/****************************************************************
+*****************************************************************
+    _/    _/  _/_/_/  _/       Numerical Simulation Laboratory
+   _/_/  _/ _/       _/       Physics Department
+  _/  _/_/    _/    _/       Universita' degli Studi di Milano
+ _/    _/       _/ _/       Prof. D.E. Galli
+_/    _/  _/_/_/  _/_/_/_/ email: Davide.Galli@unimi.it
+*****************************************************************
+*****************************************************************/
 
-//Random stuff
+#ifndef __fluid_
+#define __fluid_
+
+//Random numbers
+#include "random.h"
 int seed[4];
 Random rnd;
 
 //parameters, observables
-const unsigned int n_obsevable=4;
+const int m_props=1000;
+int n_props,iu,ic,im,ix,ig;
+double nbins;
+double walker[m_props];
 
 // averages
-std::vector<double> walker(n_obsevable),
-                    blk_avg(n_obsevable),
-                    glob_avg(n_obsevable),
-                    glob_avg2(n_obsevable),
-                    estimate(n_obsevable),
-                    error(n_obsevable);
+double blk_av[m_props],blk_norm,accepted,attempted;
+double glob_av[m_props],glob_av2[m_props];
+double stima_u,stima_c,stima_m,stima_x,stima_g;
+double err_u,err_c,err_m,err_x,err_g;
 
 //configuration
-std::vector<double> s;
+const int m_spin=50;
+double s[m_spin];
 
 // thermodynamical state
-unsigned int nspin;
-double beta,temp,J,h;
-double Tmax=2, Tmin=0.5;
-double Tstep = (Tmax-Tmin)/100.;
+int nspin;
+double beta,temp,J,h, Tmin = 0.5, Tmax = 2;
+double Tstep = (Tmax-Tmin)/50.;
 
 // simulation
-unsigned int nstep, nblk, eq_step=10000, metro;
-double accepted, attempted;
-
+int nstep, nblk, metro, ntherm, old;
 
 //functions
-void set_parameters(void);
-void hot_start();
-void cold_start();
-void restart();
-void reset(int);
-void sum();
-void averages(int);
-void mc_move(int);
-void observable_temp(double);
-void confFinal(void);
-void measure(void);
+void Input(void);
+void Reset(int);
+void Accumulate(void);
+void Averages(int);
+void Averages_temp(double);
+void Restart();
+void Move(int);
+void ConfFinal(void);
+void Measure(void);
+double Boltzmann(int, int);
 int Pbc(int);
-double dev_st_mean(double,double,int);
+double Error(double,double,int);
 
 #endif
+
+/****************************************************************
+*****************************************************************
+    _/    _/  _/_/_/  _/       Numerical Simulation Laboratory
+   _/_/  _/ _/       _/       Physics Department
+  _/  _/_/    _/    _/       Universita' degli Studi di Milano
+ _/    _/       _/ _/       Prof. D.E. Galli
+_/    _/  _/_/_/  _/_/_/_/ email: Davide.Galli@unimi.it
+*****************************************************************
+*****************************************************************/

@@ -22,7 +22,7 @@ Random :: ~Random(){}
 
 void Random :: SaveSeed(){
    ofstream WriteSeed;
-   WriteSeed.open("random/seed.out");
+   WriteSeed.open("seed.out");
    if (WriteSeed.is_open()){
       WriteSeed << l1 << " " << l2 << " " << l3 << " " << l4 << endl;;
    } else cerr << "PROBLEM: Unable to open random.out" << endl;

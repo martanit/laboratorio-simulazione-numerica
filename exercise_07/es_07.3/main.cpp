@@ -31,9 +31,6 @@ int main() {
           WriteConf.close();
          }
        */
-      if (istep % iprint == 0) {
-        std::cout << "Number of time-steps: " << istep << std::endl;
-      }
 
       if (istep % 10 == 0) {
         // Properties measurement
@@ -456,20 +453,11 @@ void measure(int istep, int iblock) {
     }
 
     if (iblock == (nblock - 1))
-      for (int k = 0; k < nbins; ++k)
-        ave_g << k << " " << glob_av[k] / double(nblock + 1) << " " << err_g[k]
+      for (int k = 0; k < nbins; ++k){
+        r = bin_size * k;
+        ave_g << r << " " << glob_av[k] / double(nblock + 1) << " " << err_g[k]
               << std::endl;
-    /*
-          ave_epot << sum_pot/double(iblock+1) << " " << dev_st_mean(iblock+1 ,
-       sum_pot, sum2_pot) << std::endl; ave_ekin << sum_kin/double(iblock+1) <<
-       " "  << dev_st_mean(iblock+1, sum_kin, sum2_kin) << std::endl; ave_temp
-       << sum_temp/double(iblock+1) << " " << dev_st_mean(iblock+1, sum_temp,
-       sum2_temp) << std::endl; ave_etot << sum_etot/double(iblock+1) << " " <<
-       dev_st_mean(iblock+1, sum_etot, sum2_etot) << std::endl; ave_press <<
-       sum_press/double(iblock+1) << " " << dev_st_mean(iblock+1, sum_press,
-       sum2_press) << std::endl;
-
-      */
+      }
     ave_epot.close();
     ave_ekin.close();
     ave_temp.close();
